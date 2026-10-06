@@ -13,6 +13,7 @@ g++ main.cpp UIConfig.cpp imgui.cpp imgui_demo.cpp imgui_draw.cpp imgui_tables.c
 ./os_mockup.exe
 
 
+
 G:\CSOPESY\MO4\
 ├── 📄 main.cpp                     # Application Entry Point & Main Loop
 ├── 📄 UIConfig.h / UIConfig.cpp    # Global UI Configurations, Styling, & Fonts
@@ -27,7 +28,7 @@ G:\CSOPESY\MO4\
 │   ├── 📄 FileExplorer.h           # Virtual File System Navigation UI
 │   └── 📄 Settings.h               # System Configuration & Options UI
 │
-└── 📂 Third-Party Dependencies (Dear ImGui & GLFW)
+└── 📂 Third-Party Dependencies (Dear ImGui & GLFW) (DO NOT EDIT)
     ├── 📄 imgui.h / imgui.cpp
     ├── 📄 imgui_internal.h
     ├── 📄 imgui_widgets.cpp

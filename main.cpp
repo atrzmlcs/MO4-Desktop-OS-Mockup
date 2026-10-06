@@ -11,6 +11,8 @@
 #include "Desktop.h"
 #include "Taskbar.h"
 #include "TaskManagerUI.h"
+#include "FileExplorer.h"
+#include "Settings.h"
 
 int main() {
     // =========================================================================
@@ -57,12 +59,16 @@ int main() {
     auto desktopWindow = std::make_shared<Desktop>();
     auto taskbarWindow = std::make_shared<Taskbar>();
     auto taskManager   = std::make_shared<TaskManagerUI>();
+    auto fileExplorer  = std::make_shared<FileExplorer>();
+    auto settings      = std::make_shared<Settings>();
 
     // Register all active windows into system registry
-    UIManager::getInstance().registerWindow("BIOSBoot", bootWindow);
-    UIManager::getInstance().registerWindow("Desktop", desktopWindow);
-    UIManager::getInstance().registerWindow("Taskbar", taskbarWindow);
-    UIManager::getInstance().registerWindow("TaskManager", taskManager);
+    UIManager::getInstance().registerWindow("BIOSBoot", bootWindow.get());
+UIManager::getInstance().registerWindow("Desktop", desktopWindow.get());
+UIManager::getInstance().registerWindow("Taskbar", taskbarWindow.get());
+UIManager::getInstance().registerWindow("TaskManager", taskManager.get());
+UIManager::getInstance().registerWindow("FileExplorer", fileExplorer.get());
+UIManager::getInstance().registerWindow("Settings", settings.get());
 
     // Initialize OS lifecycle starting with POST BIOS screen
     UIManager::getInstance().showWindow("BIOSBoot");

@@ -1,7 +1,6 @@
 #pragma once
 #include "AWindow.h"
-#include "UIConfig.h"
-#include "UIManager.h"
+#include "imgui.h"
 
 class Desktop : public AWindow {
 public:
@@ -11,26 +10,34 @@ public:
         if (!isVisible) return;
 
         ImGuiViewport* viewport = ImGui::GetMainViewport();
-        float taskbarHeight = 50.0f * UIConfig::getScaleFactor();
-
-        // Canvas occupies all space above the taskbar
         ImGui::SetNextWindowPos(viewport->Pos);
-        ImGui::SetNextWindowSize(ImVec2(viewport->Size.x, viewport->Size.y - taskbarHeight));
+        ImGui::SetNextWindowSize(viewport->Size);
 
         ImGuiWindowFlags flags = ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize |
-                                 ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse |
-                                 ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoSavedSettings;
+                                 ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoScrollbar |
+                                 ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoBringToFrontOnFocus;
 
-        if (ImGui::Begin(windowName.c_str(), nullptr, flags)) {
-            ImGui::Text("CSOPESY OS Workstation");
-            ImGui::Separator();
-            ImGui::Spacing();
+        // Remove window padding to make the gradient flush with the screen edges
+        ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.0f, 0.0f));
 
-            // Desktop Shortcut
-            if (ImGui::Button("Launch Task Manager\n[Process Monitor]", UIConfig::scale(ImVec2(180, 60)))) {
-                UIManager::getInstance().showWindow("TaskManager");
-            }
+        if (ImGui::Begin("DesktopBG", nullptr, flags)) {
+            // Draw a smooth corner-to-corner color gradient
+            ImDrawList* drawList = ImGui::GetWindowDrawList();
+            ImVec2 p_min = ImGui::GetCursorScreenPos();
+            ImVec2 p_max = ImVec2(p_min.x + viewport->Size.x, p_min.y + viewport->Size.y);
+            
+            ImU32 col_top_left  = ImGui::GetColorU32(ImVec4(0.05f, 0.15f, 0.35f, 1.0f)); // Deep Blue
+            ImU32 col_top_right = ImGui::GetColorU32(ImVec4(0.10f, 0.30f, 0.50f, 1.0f)); // Mid Blue
+            ImU32 col_bot_right = ImGui::GetColorU32(ImVec4(0.02f, 0.10f, 0.20f, 1.0f)); // Dark Blue
+            ImU32 col_bot_left  = ImGui::GetColorU32(ImVec4(0.01f, 0.05f, 0.15f, 1.0f)); // Very Dark
+
+            drawList->AddRectFilledMultiColor(p_min, p_max, col_top_left, col_top_right, col_bot_right, col_bot_left);
+
+            // Desktop text overlay
+            ImGui::SetCursorPos(ImVec2(20, 20));
+            ImGui::TextColored(ImVec4(1.0f, 1.0f, 1.0f, 0.5f), "CSOPESY OS v1.0");
         }
-        endWindow();
+        ImGui::End();
+        ImGui::PopStyleVar(); // Restore padding
     }
 };

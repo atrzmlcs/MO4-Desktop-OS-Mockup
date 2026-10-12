@@ -4,6 +4,16 @@ An Operating System UI simulation built using C++, GLFW, OpenGL 3, and Dear ImGu
 
 ---
 
+CSOPESY Group 2
+
+Dumaran, Marc Ian A.
+
+Malicsi, Patrick
+
+Marinas, Carl Meryn
+
+---
+
 ## How to Build and Run (MinGW / GCC)
 
 Run the following command in your terminal from the project root folder:
